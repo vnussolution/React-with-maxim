@@ -6,8 +6,13 @@ import UserInput from "./UserInput/UserInput";
 
 class App extends Component {
   state = {
-    people: [{ name: "frank", age: 4 }, { name: "frankie", age: 5 }],
-    username: "franktruc"
+    people: [
+      { name: "frank", age: 4 },
+      { name: "frankie", age: 5 },
+      { name: "truc", age: 6 }
+    ],
+    username: "franktruc",
+    showPeople: false
   };
 
   clickButtonHandler = () => {
@@ -26,8 +31,9 @@ class App extends Component {
   changeName = event => {
     this.setState({
       people: [
-        { name: "frankie", age: 41 },
-        { name: event.target.value, age: 51 }
+        { name: event.target.value, age: 4 },
+        { name: event.target.value, age: 5 },
+        { name: event.target.value, age: 6 }
       ]
     });
     //console.log("hello", this.state);
@@ -36,23 +42,35 @@ class App extends Component {
   changeInputUserName = event => {
     this.setState({ username: event.target.value });
   };
+
+  toggleHandler = () => {
+    this.setState({ showPeople: !this.state.showPeople });
+  };
+
   render() {
+    let people = null;
+    if (this.state.showPeople) {
+      people = (
+        <div>
+          {this.state.people.map(person => {
+            return (
+              <Person
+                name={person.name}
+                age={person.age}
+                changed={this.changeName}
+              />
+            );
+          })}
+        </div>
+      );
+    }
+
     return (
       <div className="App">
-        <h2>hello thereqwe</h2>
+        <h2>hello </h2>
 
-        <h3> love asdf sdf sdfsdf</h3>
-        <button onClick={this.clickButtonHandler}> click me </button>
-        <Person
-          name={this.state.people[0].name}
-          age={this.state.people[0].age}
-          click={this.switchNameHandler.bind(this, "new name123")}
-        />
-        <Person
-          name={this.state.people[1].name}
-          age={this.state.people[1].age}
-          changed={this.changeName}
-        />
+        <button onClick={this.toggleHandler}> toggle </button>
+        {people}
         <UserInput
           changed={this.changeInputUserName}
           name={this.state.username}
