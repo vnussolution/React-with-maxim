@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
 import Person from "./Person/Person";
-import UserOutput from "./UserOutput/UserOutput";
-import UserInput from "./UserInput/UserInput";
+import Validation from "./Validation/Validation";
+import Char from "./Char/Char";
 
 class App extends Component {
   state = {
@@ -12,6 +12,7 @@ class App extends Component {
       { id: "3", name: "truc", age: 6 }
     ],
     username: "franktruc",
+    text: "",
     showPeople: false
   };
 
@@ -53,15 +54,49 @@ class App extends Component {
   };
 
   clickDeleteHandler = deleteIndex => {
-    console.log("hello", this.state);
-
     const people = this.state.people.slice();
     people.splice(deleteIndex, 1);
     this.setState({ people });
   };
 
+  showLengthHandler = event => {
+    this.setState({
+      text: event.target.value
+    });
+  };
+
+  deleteLetterHandler = index => {
+    let text = this.state.text.slice();
+    let array = text.split("");
+    array.splice(index, 1);
+    let result = array.join("");
+    console.log("hello", index, array);
+
+    this.setState({ text: result });
+  };
+
+  displayChars = () => {
+    const text = this.state.text.slice();
+    const array = text.split("");
+
+    return (
+      <div>
+        {array.map((letter, index) => {
+          return (
+            <Char
+              key={index}
+              char={letter}
+              click={() => this.deleteLetterHandler(index)}
+            />
+          );
+        })}
+      </div>
+    );
+  };
+
   render() {
     let people = null;
+
     if (this.state.showPeople) {
       people = (
         <div>
@@ -85,6 +120,12 @@ class App extends Component {
         <h2>hello </h2>
 
         <button onClick={this.toggleHandler}> toggle </button>
+
+        <input type="text" onChange={this.showLengthHandler} />
+        <p> the length is {this.state.text.length}</p>
+
+        <Validation textLength={this.state.text.length} />
+        {this.displayChars()}
         {people}
         {/* <UserInput
           changed={this.changeInputUserName}
