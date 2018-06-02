@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./App.css";
+import classes from "./App.css";
 import Person from "./Person/Person";
 import Validation from "./Validation/Validation";
 import Char from "./Char/Char";
@@ -96,6 +96,7 @@ class App extends Component {
 
   render() {
     let people = null;
+    let btnClasses = "";
 
     if (this.state.showPeople) {
       people = (
@@ -113,13 +114,22 @@ class App extends Component {
           })}
         </div>
       );
+      btnClasses = classes.Red;
     }
 
-    return (
-      <div className="App">
-        <h2>hello </h2>
+    const assignedClasses = [];
 
-        <button onClick={this.toggleHandler}> toggle </button>
+    if (this.state.people.length <= 2) assignedClasses.push(classes.red);
+    if (this.state.people.length <= 1) assignedClasses.push(classes.bold);
+
+    return (
+      <div className={classes.App}>
+        <h2>hello </h2>
+        <p className={assignedClasses.join(" ")}> some texts here</p>
+        <button className={btnClasses} onClick={this.toggleHandler}>
+          {" "}
+          toggle{" "}
+        </button>
 
         <input type="text" onChange={this.showLengthHandler} />
         <p> the length is {this.state.text.length}</p>

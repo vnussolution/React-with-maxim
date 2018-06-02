@@ -1,8 +1,8 @@
 import React from "react";
-import "./Person.css";
+import classes from "./Person.css";
 
 const person = props => (
-  <div className="Person" id={props.id}>
+  <div className={classes.Person} id={props.id}>
     <p>
       I'm the Person {props.name} age: {props.age}
     </p>
