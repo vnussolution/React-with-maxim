@@ -4,6 +4,8 @@ import Person from "./Person/Person";
 import Validation from "./Validation/Validation";
 import Char from "./Char/Char";
 
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
+
 class App extends Component {
   state = {
     people: [
@@ -103,13 +105,14 @@ class App extends Component {
         <div>
           {this.state.people.map((person, index) => {
             return (
-              <Person
-                name={person.name}
-                age={person.age}
-                key={person.id}
-                clicked={() => this.clickDeleteHandler(index)}
-                changed={event => this.changeNameHandler(event, person.id)}
-              />
+              <ErrorBoundary key={person.id}>
+                <Person
+                  name={person.name}
+                  age={person.age}
+                  clicked={() => this.clickDeleteHandler(index)}
+                  changed={event => this.changeNameHandler(event, person.id)}
+                />
+              </ErrorBoundary>
             );
           })}
         </div>
