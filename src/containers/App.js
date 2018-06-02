@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import classes from "../containers/App.css";
-import Person from "../components/Persons/Person/Person";
+import Persons from "../components/Persons/Persons";
 import Validation from "../components/Validation/Validation";
 import Char from "../components/Char/Char";
+import Cockpit from "../components/Cockpit/Cockpit";
 
 import ErrorBoundary from "../components/ErrorBoundary/ErrorBoundary";
 
@@ -98,45 +99,27 @@ class App extends Component {
 
   render() {
     let people = null;
-    let btnClasses = "";
 
     if (this.state.showPeople) {
       people = (
-        <div>
-          {this.state.people.map((person, index) => {
-            return (
-              <ErrorBoundary key={person.id}>
-                <Person
-                  name={person.name}
-                  age={person.age}
-                  clicked={() => this.clickDeleteHandler(index)}
-                  changed={event => this.changeNameHandler(event, person.id)}
-                />
-              </ErrorBoundary>
-            );
-          })}
-        </div>
+        <Persons
+          people={this.state.people}
+          clickDelete={this.clickDeleteHandler}
+          changeName={this.changeNameHandler}
+        />
       );
-      btnClasses = classes.Red;
     }
-
-    const assignedClasses = [];
-
-    if (this.state.people.length <= 2) assignedClasses.push(classes.red);
-    if (this.state.people.length <= 1) assignedClasses.push(classes.bold);
 
     return (
       <div className={classes.App}>
-        <h2>hello </h2>
-        <p className={assignedClasses.join(" ")}> some texts here</p>
-        <button className={btnClasses} onClick={this.toggleHandler}>
-          {" "}
-          toggle{" "}
-        </button>
-
-        <input type="text" onChange={this.showLengthHandler} />
-        <p> the length is {this.state.text.length}</p>
-
+        <Cockpit
+          title={this.props.title}
+          people={this.state.people}
+          toggle={this.toggleHandler}
+          showLength={this.showLengthHandler}
+          text={this.state.text}
+          show={this.state.showPeople}
+        />
         <Validation textLength={this.state.text.length} />
         {this.displayChars()}
         {people}
