@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import classes from "./App.css";
-import Person from "./Person/Person";
-import Validation from "./Validation/Validation";
-import Char from "./Char/Char";
+import classes from "../containers/App.css";
+import Person from "../components/Persons/Person/Person";
+import Validation from "../components/Validation/Validation";
+import Char from "../components/Char/Char";
 
-import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
+import ErrorBoundary from "../components/ErrorBoundary/ErrorBoundary";
 
 class App extends Component {
   state = {

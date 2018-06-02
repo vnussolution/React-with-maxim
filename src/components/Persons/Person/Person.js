@@ -2,8 +2,9 @@ import React from "react";
 import classes from "./Person.css";
 
 const person = props => {
+  // to throw an error
   const rando = Math.random();
-  if (rando > 0.7) throw Error("something went wrong here");
+  if (rando > 1) throw Error("something went wrong here"); // change rado >0.5 to throw error 50%
 
   return (
     <div className={classes.Person} id={props.id}>
