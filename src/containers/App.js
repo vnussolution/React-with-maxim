@@ -5,9 +5,53 @@ import Validation from "../components/Validation/Validation";
 import Char from "../components/Char/Char";
 import Cockpit from "../components/Cockpit/Cockpit";
 
-import ErrorBoundary from "../components/ErrorBoundary/ErrorBoundary";
+import hoc from "../hoc/HOC";
+import Aux from "../hoc/Aux";
 
 class App extends Component {
+  constructor(probs) {
+    super(probs);
+    console.log(`[App.js] inside constructor`);
+  }
+
+  componentWillMount() {
+    console.log(`[App.js] inside componentWillMount`);
+  }
+
+  componentDidMount() {
+    console.log(`[App.js] inside componentDidMount`);
+  }
+
+  // UPDATE
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(
+      `[UPDATE App.js] inside shouldComponentUpdate`,
+      nextProps,
+      nextState
+    );
+    return (
+      nextState.showPeople !== this.state.showPeople ||
+      nextState.people !== this.state.people ||
+      nextState.text !== this.state.text
+    );
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log(
+      `[UPDATE App.js] inside componentWillUpdate`,
+      nextProps,
+      nextState
+    );
+  }
+  componentDidUpdate(nextProps, nextState) {
+    console.log(
+      `[UPDATE App.js] inside componentDidUpdate`,
+      nextProps,
+      nextState
+    );
+  }
+
   state = {
     people: [
       { id: "1", name: "frank", age: 4 },
@@ -16,7 +60,8 @@ class App extends Component {
     ],
     username: "franktruc",
     text: "",
-    showPeople: false
+    showPeople: false,
+    toggleCounter: 0
   };
 
   clickButtonHandler = () => {
@@ -53,7 +98,12 @@ class App extends Component {
   };
 
   toggleHandler = () => {
-    this.setState({ showPeople: !this.state.showPeople });
+    this.setState((prevState, props) => {
+      return {
+        showPeople: !this.state.showPeople,
+        toggleCounter: prevState.toggleCounter + 1
+      };
+    });
   };
 
   clickDeleteHandler = deleteIndex => {
@@ -98,6 +148,8 @@ class App extends Component {
   };
 
   render() {
+    console.log(`[App.js] inside render`);
+
     let people = null;
 
     if (this.state.showPeople) {
@@ -111,7 +163,11 @@ class App extends Component {
     }
 
     return (
-      <div className={classes.App}>
+      <Aux>
+        <button onClick={() => this.setState({ showPeople: true })}>
+          button for testing shouldComponentUpdate
+        </button>
+
         <Cockpit
           title={this.props.title}
           people={this.state.people}
@@ -128,9 +184,9 @@ class App extends Component {
           name={this.state.username}
         />
         <UserOutput username={this.state.username} /> */}
-      </div>
+      </Aux>
     );
   }
 }
 
-export default App;
+export default hoc(App, classes.App);
